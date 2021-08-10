@@ -23,7 +23,19 @@ tag_upload_form();
             } elseif (strpos($fullUrl, "dmessage=correct") == TRUE) {
 
                 echo "<div id='salert' class='alert alert-success' >
-    <a  id='linkClose' href='all_tags.php' class='close'>&times;</a>DELETED</div>";
+    <a  id='linkClose' href='all_tags.php' class='close'>&times;</a>Card Deactivated</div>";
+            }
+
+ if (strpos($fullUrl, "Umessage=error") == TRUE) {
+
+                echo "  <div id=\"ealert\" class=\"alert alert-danger \">
+                 <a  id=\"linkClose\" href=\"all_tags.php\" class=\"close\" >&times;</a>
+                        <strong>Error!</strong> Something went wrong
+                    </div>";
+            } elseif (strpos($fullUrl, "Umessage=correct") == TRUE) {
+
+                echo "<div id='salert' class='alert alert-success' >
+    <a  id='linkClose' href='all_tags.php' class='close'>&times;</a>Card Updated successfully</div>";
             }
 
 
@@ -63,13 +75,13 @@ tag_upload_form();
                                 echo "<td>" . $row['Firstname'] . " " . $row['Lastname'] . "</td>";
                                 echo "<td>";
 
-                                echo "<a href='access_record.php?id=" . $row['master_id'] . "' class='btn btn-info' style='margin-right: 1em'>Records</a>";
+//                                echo "<a href='access_record.php?id=" . $row['master_id'] . "' class='btn btn-info' style='margin-right: 1em'>Records</a>";
 
                                 //to update only one record
                                 echo "<a href='update_tag.php?master_id=" . $row['master_id'] . "' class='btn btn-primary' style='margin-right: 1em'>Edit<a/>";
                                 //to delete only one record
 //                                echo "<a href='delete_tag.php?id=" . $row['master_id'] . "' class='btn btn-danger'>Delete</a>";
-                                echo "<a href='#' onclick='delete_tag({$id})'  class='btn btn-danger 'style='margin-left:1rem;'>Delete</a>";
+                                echo "<a href='#' onclick='delete_tag({$id})'  class='btn btn-danger 'style='margin-left:1rem;'>Deactivate</a>";
                                 echo "</td>";
                                 echo "</tr>";
 

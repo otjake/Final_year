@@ -69,9 +69,19 @@ if (!isset($_SESSION['username'])) {
                             <div class="sb-nav-link-icon"><i class="fas fa-user-tie"></i></div>
                             ADD ADMIN
                         </a>
-                        <a class="nav-link collapsed" href="rfid.py" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                        <a class="nav-link"  href="rfid.py">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            READER
+                            ACCESS READER
+                        </a>
+                        <a class="nav-link"  href="rfid_length.py">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            BMI
+                        </a>
+
+
+                        <a class="nav-link" href="medical.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            MEDICALS
                         </a>
 <!--                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">-->
 <!--                            <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="review.php">REVIEW MANAGEMENT</a><a class="nav-link" href="newsletter.php"> NEWSLETTER</a></nav>-->

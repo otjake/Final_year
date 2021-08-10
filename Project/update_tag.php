@@ -17,11 +17,22 @@ if (isset($_GET['master_id'])) {
             $department = $rows['Department'];
             $gender = $rows['Gender'];
         }
+        $bmi_update = "SELECT * FROM bmi where rfid_ref= '{$tag}'";
+        $result_bmisql = mysqli_query($connection, $bmi_update);
+        if ($result_bmisql->num_rows > 0) {
+            while ($bmi_rows = mysqli_fetch_assoc($result_bmisql)) {
+                $bmi_id_for_update = $bmi_rows['bmi_id'];
+                $bmi_tag = $bmi_rows['rfid_ref'];
+                $height = $bmi_rows['Height'];
+                $weight = $bmi_rows['Weight'];
+            }
+        }else{
+            $noBMI="This user has no BMI DATA,  <a href='medical.php'>add one</a>";
+        }
     }
 }
-
 //update query
-if (isset($_POST['update'])) {
+if (isset($_POST['updateTag'])) {
     $update_id = ($_POST['id']);
     $up_tag = $_POST['tag'];
     $up_matric=$_POST['matric'];
@@ -36,7 +47,8 @@ if (isset($_POST['update'])) {
     $result_usql = mysqli_query($connection, $usql);
     if ($result_usql) {
         echo "<script>alert('Tag details updated')</script>";
-        header('Location:all_tags.php');
+//        header('Location:all_tags.php');
+        page_redirect('all_tags.php?Umessage=correct');
     } else {
 
         $Emessage = " Unable to Update";
@@ -44,6 +56,25 @@ if (isset($_POST['update'])) {
 }
 
 
+
+//update query for bmi
+if (isset($_POST['update_bmi'])) {
+    $bmi_up_tag = $_POST['uptag'];
+    $height_up= $_POST['height'];
+    $weight_up = $_POST['weight'];
+
+
+    $usql = "UPDATE bmi SET Height='{$height_up}',Weight='{$weight_up}'WHERE rfid_ref='$bmi_up_tag' ";
+    $result_usql = mysqli_query($connection, $usql);
+    if ($result_usql) {
+        echo "<script>alert('Tag BMI details updated')</script>";
+//        header('Location:all_tags.php');
+        page_redirect('all_tags.php?Umessage=correct');
+    } else {
+
+        $Emessage = " Unable to Update";
+    }
+}
 
 
 
@@ -57,7 +88,7 @@ if (isset($_POST['update'])) {
                 <li class="breadcrumb-item active">Dashboard</li>
             </ol>
             <div class="card mb-4">
-                <div class="card-header"><i class="fas fa-table mr-1"></i>STOCK TABLE</div>
+                <div class="card-header"><i class="fas fa-table mr-1"></i>UPDATE TAG DETAILS</div>
                 <div class="card-body">
 
                     <?php
@@ -78,7 +109,7 @@ if (isset($_POST['update'])) {
 
                         <div class="form-group">
 
-                            <input type="text" class="form-control" name="id" value="<?php echo $id_for_update; ?>" />
+                            <input type="text" class="form-control" hidden name="id" value="<?php echo $id_for_update; ?>" />
 
 
                         </div>
@@ -132,14 +163,53 @@ if (isset($_POST['update'])) {
                         </div>
 
 
-                        <button type="submit" id="upload" name="update" class="btn btn-primary">Update Tag</button>
+                        <button type="submit" id="upload" name="updateTag" class="btn btn-primary">Update Tag</button>
                         <a href="allproduct.php" class="btn btn-danger">Cancel</a>
 
 
                     </form>
+<hr class="mt-4">
 
                 </div>
             </div>
+            <?php
+            if (!empty($noBMI)) {
+                echo "<p class='alert alert-info'> $noBMI <a  id=\"linkClose\"  class=\"close\" >&times;</a></p>";
+            }else{
+            ?>
+            <div class="card mb-4">
+                <div class="card-header"><i class="fas fa-table mr-1"></i>UPDATE BMI DETAILS</div>
+                <div class="card-body">
+
+                    <form method="POST" action="update_tag.php">
+
+
+                        <div class="form-group">
+
+                                <input type="text" class="form-control" name="uptag" hidden placeholder="Tag ID" value="<?php echo $bmi_tag; ?>"   />
+                        </div>
+                        <div class="form-group">
+                            <b>HEIGHT:
+                                <input type="text" class="form-control" name="height" placeholder="Student height" value="<?php echo $height; ?>" required />
+
+                            </b>
+                        </div>
+                        <div class="form-group">
+                            <b>WEIGHT:
+                                <input type="text" class="form-control" name="weight" placeholder="Student weight" required value="<?php echo $weight; ?>" />
+
+                            </b>
+                        </div>
+
+
+                        <button type="submit" id="upload" name="update_bmi" class="btn btn-primary">Update</button>
+
+                    </form>
+                </div>
+            </div>
+            <?php
+            }
+ ?>
         </div>
     </main>
     <?php include("includes/footer.php"); ?>
